@@ -28,4 +28,29 @@ public class Validador {
         return s == null || s.matches("\\d+");
     }
 
+    public static boolean esDni(String s) {
+        return esSoloDigitos(s) && s.length() == 8;
+    }
+
+    public static boolean esRuc(String s) {
+        return esSoloDigitos(s) && s.length() == 11;
+    }
+
+    public static boolean esTelefono(String s) {
+        return esSoloDigitos(s) && s.length() >= 9;
+    }
+
+    //Aun esta por definirse la estructura del codigo de momento se deja asi
+    public static boolean esCodigoProducto(String s) {
+        return s == null && s.matches("[A-Z]{1,3}\\d{1,6}");
+    }
+    
+    public static boolean esPosiitivo(double v) {
+        return v > 0;
+    }
+    
+    
+    public static boolean esNoNegativo(double v) {
+        return v >= 0;
+    }
 }
