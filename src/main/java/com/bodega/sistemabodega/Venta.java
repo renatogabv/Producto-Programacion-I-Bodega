@@ -1,16 +1,19 @@
 package com.bodega.sistemabodega;
+import java.util.ArrayList;
+
 
 public class Venta {
-    private int contadorventa = 0;
+    private static int contadorventa = 0;
     private int numero;
-    private String dnicliente;
+    private Cliente cliente;
     private String tipopago;
     private double total;
     private double ganancia;
     private double montopagado;
+    private ArrayList<DetalleVenta> detalles;
     
-    public Venta(String dnicliente){
-        this.dnicliente = dnicliente;
+    public Venta(Cliente dnicliente){
+        this.cliente = dnicliente;
     }
 
     public int getContadorventa() {
@@ -21,8 +24,8 @@ public class Venta {
         return numero;
     }
 
-    public String getDnicliente() {
-        return dnicliente;
+    public Cliente getDnicliente() {
+        return cliente;
     }
 
     public String getTipopago() {
@@ -45,9 +48,7 @@ public class Venta {
         this.tipopago = tipopago;
     }
     
-    public void agregarItem(double subtotal, double gananciaitem) {
-        this.total += subtotal;
-        this.ganancia += gananciaitem;
+    public void agregarDetalle(Producto,
     }
     
     public boolean registrarPago(double monto) {
