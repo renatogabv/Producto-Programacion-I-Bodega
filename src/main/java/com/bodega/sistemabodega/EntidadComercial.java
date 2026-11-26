@@ -9,6 +9,8 @@ public class EntidadComercial {
     public EntidadComercial(String documento, String nombre){
         setDocumento(documento);
         setNombre(nombre);
+        this.telefono = null;
+        
             
     }
     public EntidadComercial(String documento, String nombre, String telefono) {
@@ -19,7 +21,7 @@ public class EntidadComercial {
     }
 
     public void setDocumento(String documento) {
-        if (documento== "" && documento.isEmpty() ){
+        if (documento== null && documento.trim().isEmpty()){
             throw new IllegalArgumentException("Ingrese Datos Validos");
             
         } else {
@@ -28,7 +30,7 @@ public class EntidadComercial {
     }
 
     public void setNombre(String nombre) {
-        if (nombre == "" && nombre.isEmpty()) {
+        if (nombre == null && nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("Ingrese Datos Validos");
             
         }else {
@@ -38,12 +40,15 @@ public class EntidadComercial {
     }
 
     public void setTelefono(String telefono) {
-        if (telefono =="" && telefono.isEmpty()) {
+        if (telefono ==null && telefono.trim().isEmpty()) {
             throw new IllegalArgumentException("Ingresar Datos Validos");
             
         } else {
             this.telefono = telefono;
         }
+    }
+    public boolean validarDocumento() {
+        return documento != null && documento.trim().isEmpty();
     }
 
     public String getDocumento() {
@@ -58,7 +63,3 @@ public class EntidadComercial {
         return telefono;
     }
 }
-//Esta es la parte de la herencia
-/*Cualquier cosa lo editan si algo anda mal
-ademas tengan en cuenta que es la primera version
-*/
