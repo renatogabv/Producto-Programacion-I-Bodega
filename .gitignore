@@ -1,3 +1,14 @@
-   target/
-   nbproject/private/
-   *.class
+# Google Drive y Windows
+desktop.ini
+Desktop.ini
+Thumbs.db
+*.tmp
+*.temp
+*.bak
+*.log
+*.swp
+*~
+
+# Compilación / IDE (si aplica a tu proyecto)
+target/
+build/
