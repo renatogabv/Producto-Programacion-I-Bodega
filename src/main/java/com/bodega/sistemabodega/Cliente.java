@@ -36,7 +36,7 @@ public class Cliente extends EntidadComercial {
         if (!Validador.esNoNegativo(fiado)) {
             throw new IllegalArgumentException("El Fiado no puede ser negativo");
         } else {
-            this.fiado = fiado;
+            this.fiado = Formato.redondearDosD(fiado);
         }
     }
     

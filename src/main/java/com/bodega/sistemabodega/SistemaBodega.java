@@ -22,12 +22,12 @@ public class SistemaBodega {
             System.out.println("\nQUE DESEAS REALIZAR");
             System.out.println("1. Registrar Producto");
             System.out.println("2. Consultar Lista de Productos");
-            System.out.println("3. Salir del Menu");
+            System.out.println("3. Registrar Cliente");
             System.out.println("4. Registrar Proveedor");
             System.out.println("5. Registrar Venta y Emitir Boleta");
             System.out.println("6. Salir del Menu");
 
-            op = Consola.leerEnteroEnRango("Selecciona una opcion: ", 1, 6);
+            op = Consola.leerEnteroEnRango("Selecciona una opcion: ", 1, 7);
 
             // Bombilla yo me encargo a partir de aqui :D
             // En esta parte se hace el proceso de registro
@@ -70,12 +70,14 @@ public class SistemaBodega {
                     } else {
                         StringBuilder ls = new StringBuilder();
                         for (Producto producto : productos) {
-                            ls      .append("Codigo: ").append(producto.getCodigo())
+                            ls.append("Codigo: ").append(producto.getCodigo())
                                     .append("\nNombre: ").append(producto.getNombre())
                                     .append("\nCategoria: ").append(producto.getCategoria())
                                     .append("\nPrecio de compra: ").append(Formato.moneda(producto.getPrecioCompra()))
                                     .append("\nPrecio de venta: ").append(Formato.moneda(producto.getPrecioVenta()))
-                                    .append("\nStock: ").append(producto.getStock());
+                                    .append("\nStock: ").append(producto.getStock())
+                                    .append("\n\n");
+
                         }
                         System.out.println(ls);
                     }
@@ -202,13 +204,38 @@ public class SistemaBodega {
                     boleta.imprimirBoleta();
                     break;
                 }
-
-                case 6:
+                case 6: {
+                    if (ventas.isEmpty()) {
+                        System.out.println("\nNo hay ventas registradas.");
+                    } else {
+                        double totalGeneral = 0.0;
+                        double gananciaGeneral = 0.0;
+                        System.out.println("\nHISTORIAL DE VENTAS");
+                        for (Venta v : ventas) {
+                            Boleta b = new Boleta(v);
+                            System.out.println("Comprobante : " + b.getNumeroBoleta()
+                                    + " \nFecha: " + Formato.fechaHora(v.getFechaHora())
+                                    + " \nCliente: " + v.getCliente().getNombre()
+                                    + " \nPago: " + v.getTipopago()
+                                    + " \nTotal: " + Formato.moneda(v.getTotal())
+                                    + " \nGanancia: " + Formato.moneda(v.getGanancia())
+                                    + "\n\n");
+                            totalGeneral = Formato.redondearDosD(totalGeneral + v.getTotal());
+                            gananciaGeneral = Formato.redondearDosD(gananciaGeneral + v.getGanancia());
+                        }
+                        System.out.println("\n\n");
+                        System.out.println("Total vendido  : " + Formato.moneda(totalGeneral));
+                        System.out.println("Ganancia total : " + Formato.moneda(gananciaGeneral));
+                    }
+                    break;
+                }
+                case 7:
                     System.out.println("Se cerro el programa");
                     break;
+
             }
 
-        } while (op != 6);
+        } while (op != 7);
         Consola.cerrar();
     }
 }

@@ -56,25 +56,25 @@ public class Producto {
     }
 
     public void setCodigo(String codigo) {
-        String limpio = (codigo == null) ? null: codigo.trim().toUpperCase();
+        String limpio = (codigo == null) ? null : codigo.trim().toUpperCase();
         if (!Validador.esCodigoProducto(limpio)) {
-             throw new IllegalArgumentException("Codigo invalido");
+            throw new IllegalArgumentException("Codigo invalido");
         } else {
             this.codigo = limpio;
         }
     }
-    
+
     public void setNombre(String nombre) {
-        if (!Validador.esVacio(nombre)) {
-             throw new IllegalArgumentException("Nombre invalido");
+        if (Validador.esVacio(nombre)) {
+            throw new IllegalArgumentException("Nombre invalido");
         } else {
             this.nombre = nombre.trim();
         }
     }
 
     public void setCategoria(String categoria) {
-        if (!Validador.esVacio(categoria)) {
-             throw new IllegalArgumentException("Categoria invalida");
+        if (Validador.esVacio(categoria)) {
+            throw new IllegalArgumentException("Categoria invalida");
         } else {
             this.categoria = categoria.trim();
         }
@@ -95,9 +95,9 @@ public class Producto {
     }
 
     public void setStock(int stock) {
-        if (stock < 0){
+        if (stock < 0) {
             throw new IllegalArgumentException("El stock no puede ser negativo");
-        } else{
+        } else {
             this.stock = stock;
         }
     }

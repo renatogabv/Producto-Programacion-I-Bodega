@@ -45,7 +45,6 @@ public class EntidadComercial {
         }
         String limpio = telefono.trim();
         if (!Validador.esTelefono(limpio)) {
-            this.telefono = telefono;
             throw new IllegalArgumentException("Teléfono inválido, debe tener 9 digitos al menos");
         }
         this.telefono = limpio;
