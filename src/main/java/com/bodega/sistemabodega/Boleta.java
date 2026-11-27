@@ -1,65 +1,50 @@
 package com.bodega.sistemabodega;
 
+import com.bodega.sistemabodega.util.Constante;
+import com.bodega.sistemabodega.util.Formato;
+
 public class Boleta {
-    private int numeroventa;
-    private String fechaB;
-    private String numeroB;
-    private String codigoproducto;
-    private int cantidad;
-    private double preciounitario;
-    
-    
-    // Nuevo contador para cada boleta creada pero falta poner en
-    // formato para la SUNAT xd
-    private static final String CODIGO_BOLETA = "B001";
-    private String codigo;
-    private static int contador = 0;
 
-    public Boleta(int numeroventa, String codigoproducto, int cantidad, double preciounitario, double costounitario){
-        this.numeroventa = numeroventa;
-        this.codigoproducto = codigoproducto;
-        this.cantidad = cantidad;
-        this.preciounitario = preciounitario;
-        this.codigo = "N-" + contador;
-        contador++;
-    }
-    
-    public String getCodigoBoleta() {
-        return codigo;
-    }
-    
-    public int getNumeroventa() {
-        return numeroventa;
+    private String numeroBoleta;
+    private Venta venta;
+
+    public Boleta(Venta venta) {
+        if (venta == null) {
+            throw new IllegalArgumentException("La boleta requiere una venta válida");
+        }
+        this.venta = venta;
+        this.numeroBoleta = Formato.numBoleta(venta.getNumero());
     }
 
-    public String getCodigoproducto() {
-        return codigoproducto;
+    public String getNumeroBoleta() {
+        return numeroBoleta;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public Venta getVenta() {
+        return venta;
     }
 
-    public double getPreciounitario() {
-        return preciounitario;
+    public double calcularSubtotalSinIgv() {
+        return Formato.redondearDosD(venta.getTotal() / (1.0 + Constante.IGV));
     }
 
-    public void setCantidad(int cantidad) {
-        System.out.println("INGRESA LA CANTIDAD VENDIDA");
-        this.cantidad = cantidad;
+    public double calcularIgv() {
+        return Formato.redondearDosD(venta.getTotal() - calcularSubtotalSinIgv());
     }
-    
-    //Genera un codigo de boleta automatico
-    public void generarBoleta(String fecha){
-        contador++;
-        
-        this.fechaB=fecha;
-        this.numeroB= String.format("%04d", contador);
-        
-        System.out.println(codigo + "-"+fechaB+"-"+numeroB);
-    }
-    
-    public double calcularSubtotal(){
-        return this.cantidad * this.preciounitario;
+
+    public void imprimirBoleta() {
+        System.out.println("\nBOLETA DE VENTA");
+        System.out.println("N° Comprobante : " + numeroBoleta);
+        System.out.println("Fecha y Hora   : " + Formato.fechaHora(venta.getFechaHora()));
+        System.out.println("Cliente        : " + venta.getCliente().getNombre() + " (DNI: " + venta.getCliente().getDocumento() + ")");
+        System.out.println("Tipo de Pago   : " + venta.getTipopago());
+        for (DetalleVenta d : venta.getDetalles()) {
+            System.out.println("- " + d);
+        }
+        System.out.println("Op. Gravada    : " + Formato.moneda(calcularSubtotalSinIgv()));
+        System.out.println("IGV (" + (int) (Constante.IGV * 100) + "%)      : " + Formato.moneda(calcularIgv()));
+        System.out.println("TOTAL          : " + Formato.moneda(venta.getTotal()));
+        System.out.println("Pagado         : " + Formato.moneda(venta.getMontopagado()));
+        System.out.println("Vuelto         : " + Formato.moneda(venta.calcularVuelto()));
     }
 }

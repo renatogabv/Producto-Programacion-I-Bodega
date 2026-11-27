@@ -1,42 +1,57 @@
-
 package com.bodega.sistemabodega;
 
-public class Proveedor extends EntidadComercial{
+import com.bodega.sistemabodega.util.Validador;
+
+public class Proveedor extends EntidadComercial {
+
     private String rubro;
-    
-    public Proveedor(String RUC, String razonSocial, String rubro) {
-        super (RUC, razonSocial);
+
+    public Proveedor(String ruc, String razonSocial, String rubro) {
+        super(ruc, razonSocial);
         setRubro(rubro);
-        
+
     }
-    public Proveedor(String RUC, String razonSocial, String telefono, String rubro){
-        super(RUC, razonSocial, telefono);
+
+    public Proveedor(String ruc, String razonSocial, String telefono, String rubro) {
+        super(ruc, razonSocial, telefono);
         setRubro(rubro);
-        
+
     }
-    public void setRubro(String rubro){
-        if (rubro == null || rubro.trim().isEmpty()) {
-            throw new IllegalArgumentException("Rubro Invalido");
-            
+
+    @Override
+    public void setDocumento(String ruc) {
+        String limpio = (ruc == null) ? null : ruc.trim();
+        if (!Validador.esRuc(limpio)) {
+            throw new IllegalArgumentException("RUC inválido debe tener 11 digitos");
+        } else {
+            this.documento = limpio;
         }
-        this.rubro = rubro;
+    }
+
+    public void setRubro(String rubro) {
+        if (Validador.esVacio(rubro)) {
+            throw new IllegalArgumentException("Rubro Invalido");
+        } else {
+            this.rubro = rubro;
+        }
     }
 
     public String getRubro() {
         return rubro;
     }
-    @Override 
-    public boolean validarDocumento() {
-        return super.validarDocumento() && documento.matches("\\d{11}");
 
+    @Override
+    public boolean validarDocumento() {
+        return Validador.esRuc(documento);
     }
-        @Override
+
+    @Override
     public String toString() {
-        return "Cliente{" +
-                 "DNI=" + getDocumento() +
-                 ", nombre=" + getNombre() +
-                 ", telefono=" + getTelefono() +
-                 ", rubro=" + rubro +
-                    '}';
+        return "Proveedor{ "
+                + "RUC = " + getDocumento()
+                + ", razon social = " + getNombre()
+                + ", telefono = " + (getTelefono() != null ? getTelefono() : "Sin teléfono")
+                + ", rubro = " + rubro
+                + "}";
     }
 }
