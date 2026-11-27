@@ -16,7 +16,6 @@ public class Validador {
 
     @FunctionalInterface
     public interface Regla {
-
         boolean cumple(String valor);
     }
 
@@ -25,7 +24,7 @@ public class Validador {
     }
 
     public static boolean esSoloDigitos(String s) {
-        return s == null || s.matches("\\d+");
+        return s != null && s.matches("\\d+");
     }
 
     public static boolean esDni(String s) {
@@ -42,13 +41,12 @@ public class Validador {
 
     //Aun esta por definirse la estructura del codigo de momento se deja asi
     public static boolean esCodigoProducto(String s) {
-        return s == null && s.matches("[A-Z]{1,3}\\d{1,6}");
+        return s != null && s.matches("[A-Z]{1,3}\\d{1,6}");
     }
     
-    public static boolean esPosiitivo(double v) {
+    public static boolean esPositivo(double v) {
         return v > 0;
     }
-    
     
     public static boolean esNoNegativo(double v) {
         return v >= 0;

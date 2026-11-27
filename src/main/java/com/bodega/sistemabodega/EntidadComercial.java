@@ -1,54 +1,58 @@
-
 package com.bodega.sistemabodega;
 
+import com.bodega.sistemabodega.util.Validador;
+
 public class EntidadComercial {
+
     protected String documento;
     protected String nombre;
     protected String telefono;
-    
-    public EntidadComercial(String documento, String nombre){
+
+    public EntidadComercial(String documento, String nombre) {
         setDocumento(documento);
         setNombre(nombre);
         this.telefono = null;
-        
-            
+
     }
+
     public EntidadComercial(String documento, String nombre, String telefono) {
         setDocumento(documento);
         setNombre(nombre);
         setTelefono(telefono);
-        
+
     }
 
     public void setDocumento(String documento) {
-        if (documento== null && documento.trim().isEmpty()){
-            throw new IllegalArgumentException("Ingrese Datos Validos");
-            
+        if (Validador.esVacio(documento)) {
+            throw new IllegalArgumentException("El documento no puede quedar vacio");
         } else {
-            this.documento = documento;
+            this.documento = documento.trim();
         }
     }
 
     public void setNombre(String nombre) {
-        if (nombre == null && nombre.trim().isEmpty()) {
-            throw new IllegalArgumentException("Ingrese Datos Validos");
-            
-        }else {
-            this.nombre = nombre;
-            
+        if (Validador.esVacio(nombre)) {
+            throw new IllegalArgumentException("El nombre no puede quedar vacio");
+        } else {
+            this.nombre = nombre.trim();
         }
     }
 
     public void setTelefono(String telefono) {
-        if (telefono ==null && telefono.trim().isEmpty()) {
-            throw new IllegalArgumentException("Ingresar Datos Validos");
-            
-        } else {
-            this.telefono = telefono;
+        if (Validador.esVacio(telefono)) {
+            this.telefono = null;
+            return;
         }
+        String limpio = telefono.trim();
+        if (!Validador.esTelefono(limpio)) {
+            this.telefono = telefono;
+            throw new IllegalArgumentException("Teléfono inválido, debe tener 9 digitos al menos");
+        }
+        this.telefono = limpio;
     }
+
     public boolean validarDocumento() {
-        return documento != null && documento.trim().isEmpty();
+        return !Validador.esVacio(documento);
     }
 
     public String getDocumento() {

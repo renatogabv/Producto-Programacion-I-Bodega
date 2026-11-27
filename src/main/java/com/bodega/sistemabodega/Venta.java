@@ -48,8 +48,9 @@ public class Venta {
         this.tipopago = tipopago;
     }
     
-    public void agregarDetalle(Producto,
-    }
+//    public void agregarDetalle(Producto){
+//        
+//    }
     
     public boolean registrarPago(double monto) {
         if (monto >= total && total > 0) {
