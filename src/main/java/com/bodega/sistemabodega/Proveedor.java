@@ -32,7 +32,7 @@ public class Proveedor extends EntidadComercial {
         if (Validador.esVacio(rubro)) {
             throw new IllegalArgumentException("Rubro Invalido");
         } else {
-            this.rubro = rubro;
+            this.rubro = rubro.trim();
         }
     }
 
