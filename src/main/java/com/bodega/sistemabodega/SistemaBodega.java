@@ -25,7 +25,8 @@ public class SistemaBodega {
             System.out.println("3. Registrar Cliente");
             System.out.println("4. Registrar Proveedor");
             System.out.println("5. Registrar Venta y Emitir Boleta");
-            System.out.println("6. Salir del Menu");
+            System.out.println("6. Consultar Historial de Ventas"); //En esta parte se saltearon lo de consultar registro de ventas, ya lo arregle yo | Att: Brandon
+            System.out.println("7. Salir del Menu");
 
             op = Consola.leerEnteroEnRango("Selecciona una opcion: ", 1, 7);
 
