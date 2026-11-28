@@ -1,30 +1,34 @@
 package com.bodega.sistemabodega;
 
+import com.bodega.sistemabodega.util.Constante;
 import com.bodega.sistemabodega.util.Formato;
 import com.bodega.sistemabodega.util.Validador;
 
 public class Producto {
 
-    private static int totalproducto = 0;
+private static int totalproducto = 0;
     private String nombre;
     private String codigo;
-    private String categoria;
+    private Categoria categoria;
+    private String nombreCategoria;
+    private String unidad;
     private double preciocompra;
     private double precioventa;
     private int stock;
 
-    public Producto(String codigo, String nombre, String categoria, double preciocompra, double precioventa, int stock) {
-        setCodigo(codigo);
-        setNombre(nombre);
+    public Producto(Categoria categoria, String nombre, String unidad, double preciocompra, double precioventa, int stock) {
         setCategoria(categoria);
+        this.codigo = categoria.generarSiguienteCodigoProducto();
+        setNombre(nombre);
+        setUnidad(unidad);
         setPrecioCompra(preciocompra);
         setPrecioVenta(precioventa);
         setStock(stock);
         totalproducto++;
     }
 
-    public Producto(String codigo, String nombre, String categoria, double preciocompra, double precioventa) {
-        this(codigo, nombre, categoria, preciocompra, precioventa, 0);
+    public Producto(Categoria categoria, String nombre, String unidad, double preciocompra, double precioventa) {
+        this(categoria, nombre, unidad, preciocompra, precioventa, 0);
     }
 
     public static int getTotalProductos() {
@@ -39,8 +43,16 @@ public class Producto {
         return nombre;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
+    }
+
+    public String getNombreCategoria() {
+        return (categoria != null) ? categoria.getNombre() : nombreCategoria;
+    }
+
+    public String getUnidad() {
+        return unidad;
     }
 
     public double getPrecioCompra() {
@@ -55,29 +67,34 @@ public class Producto {
         return stock;
     }
 
-    public void setCodigo(String codigo) {
-        String limpio = (codigo == null) ? null : codigo.trim().toUpperCase();
-        if (!Validador.esCodigoProducto(limpio)) {
-            throw new IllegalArgumentException("Codigo invalido");
-        } else {
-            this.codigo = limpio;
-        }
-    }
-
     public void setNombre(String nombre) {
         if (Validador.esVacio(nombre)) {
             throw new IllegalArgumentException("Nombre invalido");
-        } else {
-            this.nombre = nombre.trim();
+        }
+        this.nombre = nombre.trim();
+    }
+
+    // Agregacion: si la categoria luego se elimina de la lista, el producto conserva nombreCategoria y su codigo
+    public void setCategoria(Categoria categoria) {
+        if (categoria == null) {
+            throw new IllegalArgumentException("La categoria no puede ser nula");
+        }
+        this.categoria = categoria;
+        this.nombreCategoria = categoria.getNombre();
+    }
+
+    public void desvincularCategoria() {
+        if (this.categoria != null) {
+            this.nombreCategoria = this.categoria.getNombre();
+            this.categoria = null;
         }
     }
 
-    public void setCategoria(String categoria) {
-        if (Validador.esVacio(categoria)) {
-            throw new IllegalArgumentException("Categoria invalida");
-        } else {
-            this.categoria = categoria.trim();
+    public void setUnidad(String unidad) {
+        if (!Validador.esUnidadValida(unidad)) {
+            throw new IllegalArgumentException("Unidad invalida (" + Constante.U_UNIDAD + ", " + Constante.U_KILO + ", " + Constante.U_LITRO + ")");
         }
+        this.unidad = unidad.trim().toUpperCase();
     }
 
     public void setPrecioCompra(double preciocompra) {
@@ -97,9 +114,8 @@ public class Producto {
     public void setStock(int stock) {
         if (stock < 0) {
             throw new IllegalArgumentException("El stock no puede ser negativo");
-        } else {
-            this.stock = stock;
         }
+        this.stock = stock;
     }
 
     public boolean aumentarStock(int cantidad) {

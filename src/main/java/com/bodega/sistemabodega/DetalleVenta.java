@@ -4,7 +4,7 @@ import com.bodega.sistemabodega.util.Formato;
 
 public class DetalleVenta {
 
-    private Producto producto;
+private Producto producto;
     private int cantidad;
     private double precioUnitario;
     private double costoUnitario;
@@ -44,7 +44,7 @@ public class DetalleVenta {
 
     @Override
     public String toString() {
-        return producto.getNombre() + " x" + cantidad
+        return producto.getNombre() + " (" + producto.getUnidad() + ") x" + cantidad
                 + " (" + Formato.moneda(precioUnitario) + " c/u) = "
                 + Formato.moneda(calcularSubtotal());
     }

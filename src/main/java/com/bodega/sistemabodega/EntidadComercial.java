@@ -4,7 +4,7 @@ import com.bodega.sistemabodega.util.Validador;
 
 public class EntidadComercial {
 
-    protected String documento;
+protected String documento;
     protected String nombre;
     protected String telefono;
 
@@ -12,30 +12,26 @@ public class EntidadComercial {
         setDocumento(documento);
         setNombre(nombre);
         this.telefono = null;
-
     }
 
     public EntidadComercial(String documento, String nombre, String telefono) {
         setDocumento(documento);
         setNombre(nombre);
         setTelefono(telefono);
-
     }
 
     public void setDocumento(String documento) {
         if (Validador.esVacio(documento)) {
             throw new IllegalArgumentException("El documento no puede quedar vacio");
-        } else {
-            this.documento = documento.trim();
         }
+        this.documento = documento.trim();
     }
 
     public void setNombre(String nombre) {
         if (Validador.esVacio(nombre)) {
             throw new IllegalArgumentException("El nombre no puede quedar vacio");
-        } else {
-            this.nombre = nombre.trim();
         }
+        this.nombre = nombre.trim();
     }
 
     public void setTelefono(String telefono) {
@@ -45,7 +41,7 @@ public class EntidadComercial {
         }
         String limpio = telefono.trim();
         if (!Validador.esTelefono(limpio)) {
-            throw new IllegalArgumentException("Teléfono inválido, debe tener 9 digitos al menos");
+            throw new IllegalArgumentException("Telefono invalido, debe tener 9 digitos al menos");
         }
         this.telefono = limpio;
     }

@@ -14,7 +14,7 @@ public class Validador {
     private Validador() {
     }
 
-    @FunctionalInterface
+@FunctionalInterface
     public interface Regla {
         boolean cumple(String valor);
     }
@@ -39,15 +39,35 @@ public class Validador {
         return esSoloDigitos(s) && s.length() >= 9;
     }
 
-    //Aun esta por definirse la estructura del codigo de momento se deja asi
+    // Formato: PREFIJO-CORRELATIVO (ej. CRN-00001)
     public static boolean esCodigoProducto(String s) {
-        return s != null && s.matches("[A-Z]{1,3}\\d{1,6}");
+        return s != null && s.matches("[A-Z]{2,5}-\\d{5}");
     }
-    
+
+    public static boolean esUnidadValida(String u) {
+        if (esVacio(u)) {
+            return false;
+        }
+        String norm = u.trim().toUpperCase();
+        return norm.equals(Constante.U_UNIDAD)
+                || norm.equals(Constante.U_KILO)
+                || norm.equals(Constante.U_LITRO);
+    }
+
+    public static boolean esMotivoBajaValido(String m) {
+        if (esVacio(m)) {
+            return false;
+        }
+        String norm = m.trim().toUpperCase();
+        return norm.equals(Constante.M_VENCIMIENTO)
+                || norm.equals(Constante.M_MERMA)
+                || norm.equals(Constante.M_ERROR);
+    }
+
     public static boolean esPositivo(double v) {
         return v > 0;
     }
-    
+
     public static boolean esNoNegativo(double v) {
         return v >= 0;
     }
